@@ -868,7 +868,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c3a0def669f1af45af66a74d47d70de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingScene: TestAnimation
+  startingScene: CodeBuddies
 --- !u!1001 &8016185394235080563
 PrefabInstance:
   m_ObjectHideFlags: 0
