@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player1 : MonoBehaviour
+public class Player2 : MonoBehaviour
 {
 
     public float pixelsPerMove = 16f;
     public float pixelsPerUnit = 100f;
-    public float moveSpeed = 16f;
+    public float moveSpeed;
     private Rigidbody2D rb;
     private Vector2 moveDirection;
+
 
     // Start is called before the first frame update
     void Start()
@@ -23,14 +24,14 @@ public class Player1 : MonoBehaviour
     void Update()
     {
         float moveX = 0f;
-        float moveY = 0f;
+        float moveY = 0f;    
 
-        // Only use WASD for Player 1
-        if (Input.GetKey(KeyCode.A)) moveX = -1f;
-        if (Input.GetKey(KeyCode.D)) moveX = 1f;
-        if (Input.GetKey(KeyCode.W)) moveY = 1f;
-        if (Input.GetKey(KeyCode.S)) moveY = -1f;
+        if (Input.GetKey(KeyCode.LeftArrow)) moveX = -1f;
+        if (Input.GetKey(KeyCode.RightArrow)) moveX = 1f;
+        if (Input.GetKey(KeyCode.DownArrow)) moveY = -1f;
+        if (Input.GetKey(KeyCode.UpArrow)) moveY = 1f;
 
+        // Normalize movement to prevent fast diagonal travel
         moveDirection = new Vector2(moveX, moveY).normalized;
     }
 
