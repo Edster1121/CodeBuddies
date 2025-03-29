@@ -1,1 +1,66 @@
+# ========== Unity Generated Files ==========
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+
+# Crash Reports and Debug Logs
+MemoryCaptures/
+*.pidb
+*.suo
+*.user
+*.userprefs
+*.csproj
+*.unityproj
+*.sln
+*.swp
+*.sln.dotSettings*
+
+# Unity Auto-generated Folders
+/[Aa]ssets/[Ss]treaming[Aa]ssets/*
+!/[Aa]ssets/[Ss]treaming[Aa]ssets/*.meta
+
+# ========== Version Control Settings ==========
+.vs/
+.vscode/
+.idea/
+*.tmproj
+*.iml
+
+# ========== System-Specific Files ==========
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ========== Logs and Cache ==========
+*.log
+*.log.*
+*.stackdump
+
+# ========== Build Artifacts ==========
+/[Bb]uilds/
+/[Dd]ist/
+/[Bb]in/
+/[Oo]ut/
+
+# ========== Unity Package Manager ==========
+/[Pp]ackages/*
+!/[Pp]ackages/manifest.json
+!/[Pp]ackages/packages-lock.json
+
+# ========== Addressable Assets ==========
+/[Aa]ssets/[Aa]ddressable[Aa]ssetsData/*
+
+# ========== JetBrains Rider Files ==========
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/assetInspection.xml
+
+# ========== Rider, VS Code, and Other IDEs ==========
+/.vscode/
+*.code-workspace
 
