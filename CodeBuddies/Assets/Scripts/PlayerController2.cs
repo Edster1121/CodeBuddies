@@ -10,10 +10,10 @@ public class PlayerController2 : MonoBehaviour
     private Queue<string> _commandQueue1;
     private const float TileSize = 1f;
     private bool _isExecutingCommands;
-    
+
     [SerializeField, Tooltip("Layer for obstacles")]
     private LayerMask obstacleLayer;
-    
+
     [SerializeField, Tooltip("Seconds between player 1 commands")]
     private float delayTime = 0.5f;
     
@@ -39,6 +39,10 @@ public class PlayerController2 : MonoBehaviour
     public Image rightImage;
 
     private Queue<Image> commandImagesQueue;
+    
+    //SFX Stuff
+    public AudioSource SFX;
+    [SerializeField] public AudioClip hit, block;
 
     private void Start()
     {
@@ -52,6 +56,9 @@ public class PlayerController2 : MonoBehaviour
         {
             _commandQueue1.Enqueue("Up");
             AddImageToQueue(upImage);
+        } else {
+            SFX.clip = block;
+            SFX.Play();
         }
     }
 
@@ -61,6 +68,9 @@ public class PlayerController2 : MonoBehaviour
         {
             _commandQueue1.Enqueue("Down");
             AddImageToQueue(downImage);
+        } else {
+            SFX.clip = block;
+            SFX.Play();
         }
     }
 
@@ -70,6 +80,9 @@ public class PlayerController2 : MonoBehaviour
         {
             _commandQueue1.Enqueue("Left");
             AddImageToQueue(leftImage);
+        } else {
+            SFX.clip = block;
+            SFX.Play();
         }
     }
 
@@ -79,6 +92,9 @@ public class PlayerController2 : MonoBehaviour
         {
             _commandQueue1.Enqueue("Right");
             AddImageToQueue(rightImage);
+        } else {
+            SFX.clip = block;
+            SFX.Play();
         }
     }
 
@@ -132,6 +148,11 @@ public class PlayerController2 : MonoBehaviour
             {
                 HandleCommand(command);
             }
+            else
+            {
+                SFX.clip = hit;
+                SFX.Play();
+            }
 
             // Optionally remove the first image from the UI after it's executed
             if (commandImagesQueue.Count > 0)
@@ -170,7 +191,7 @@ public class PlayerController2 : MonoBehaviour
 
         transform.Translate(moveAmount);
     }
-    
+
     private bool CanMove(string command)
     {
         Vector3 direction = Vector3.zero;

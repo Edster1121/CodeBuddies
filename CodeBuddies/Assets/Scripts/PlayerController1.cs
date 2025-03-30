@@ -39,6 +39,10 @@ public class PlayerController1 : MonoBehaviour
     public Image rightImage;
 
     private Queue<Image> commandImagesQueue;
+    
+    //SFX Stuff
+    public AudioSource SFX;
+    [SerializeField] public AudioClip hit, block;
 
     private void Start()
     {
@@ -52,6 +56,9 @@ public class PlayerController1 : MonoBehaviour
         {
             _commandQueue1.Enqueue("Up");
             AddImageToQueue(upImage);
+        } else {
+            SFX.clip = block;
+            SFX.Play();
         }
     }
 
@@ -61,6 +68,9 @@ public class PlayerController1 : MonoBehaviour
         {
             _commandQueue1.Enqueue("Down");
             AddImageToQueue(downImage);
+        } else {
+            SFX.clip = block;
+            SFX.Play();
         }
     }
 
@@ -70,6 +80,9 @@ public class PlayerController1 : MonoBehaviour
         {
             _commandQueue1.Enqueue("Left");
             AddImageToQueue(leftImage);
+        } else {
+            SFX.clip = block;
+            SFX.Play();
         }
     }
 
@@ -79,6 +92,9 @@ public class PlayerController1 : MonoBehaviour
         {
             _commandQueue1.Enqueue("Right");
             AddImageToQueue(rightImage);
+        } else {
+            SFX.clip = block;
+            SFX.Play();
         }
     }
 
@@ -131,6 +147,11 @@ public class PlayerController1 : MonoBehaviour
             if (CanMove(command)) 
             {
                 HandleCommand(command);
+            }
+            else
+            {
+                SFX.clip = hit;
+                SFX.Play();
             }
 
             // Optionally remove the first image from the UI after it's executed
