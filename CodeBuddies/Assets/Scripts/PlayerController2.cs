@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,11 +13,23 @@ public class PlayerController2 : MonoBehaviour
     
     [SerializeField, Tooltip("Seconds between player 1 commands")]
     private float delayTime = 0.5f;
-    [SerializeField, Tooltip("Starting positon: world space")]
+    
+    [SerializeField, Tooltip("Starting position: world space")]
     public Vector3 startingPosition;
 
-    // UI elements
+    // UI-related elements
     public GameObject queuePanel;
+
+    [SerializeField, Tooltip("max images per row")]
+    public int maxPerRow = 10;
+    
+    [SerializeField] private float imageScale = 0.5f;
+    [SerializeField] private float spacingX = 20f;  // Adjust for proper horizontal spacing
+    [SerializeField] private float spacingY = 20f;  // Adjust for vertical spacing
+    [SerializeField] private float startX = 50f;  // Starting X position for the first image
+    [SerializeField] private float startY = -50f; // Starting Y position for the first image
+
+
     public Image upImage;
     public Image downImage;
     public Image leftImage;
@@ -24,7 +37,7 @@ public class PlayerController2 : MonoBehaviour
 
     private Queue<Image> commandImagesQueue;
 
-    void Start()
+    private void Start()
     {
         _commandQueue1 = new Queue<string>();
         commandImagesQueue = new Queue<Image>();
@@ -57,12 +70,32 @@ public class PlayerController2 : MonoBehaviour
     private void AddImageToQueue(Image directionImage)
     {
         Image newDirectionImage = Instantiate(directionImage);
-
         newDirectionImage.transform.SetParent(queuePanel.transform, false);
 
+        // Shrink the image
+        newDirectionImage.transform.localScale = new Vector3(imageScale, imageScale, 1f);
+
+        // Add image to the queue
         commandImagesQueue.Enqueue(newDirectionImage);
+
+        // Update image positions after adding a new one
+        UpdateImagePositions();
     }
 
+    // Update image positions based on their index in the queue
+    private void UpdateImagePositions()
+    {
+        for (int i = 0; i < commandImagesQueue.Count; i++)
+        {
+            int row = i / maxPerRow;  // Moves to the next row after maxPerRow images
+            int col = i % maxPerRow;  // Determines position in the current row
+
+            RectTransform rect = commandImagesQueue.ElementAt(i).GetComponent<RectTransform>();
+            rect.anchoredPosition = new Vector2(startX + col * spacingX, startY - (row * spacingY));
+        }
+    }
+
+    // Execute the commands in the queue
     public void ExecuteCommands()
     {
         if (!_isExecutingCommands)
@@ -80,9 +113,10 @@ public class PlayerController2 : MonoBehaviour
             string command = _commandQueue1.Dequeue();
             HandleCommand(command);
 
+            // Optionally remove the first image from the UI after it's executed
             if (commandImagesQueue.Count > 0)
             {
-                Destroy(commandImagesQueue.Dequeue().gameObject);
+                Destroy(commandImagesQueue.Dequeue().gameObject);  // Destroy the image from the UI
             }
 
             yield return new WaitForSeconds(delayTime);
@@ -90,6 +124,7 @@ public class PlayerController2 : MonoBehaviour
 
         _isExecutingCommands = false;
         IsFinished = true;
+        GameManager.Instance.CheckForLoss();
     }
 
     private void HandleCommand(string command)
@@ -114,7 +149,7 @@ public class PlayerController2 : MonoBehaviour
 
         transform.Translate(moveAmount);
     }
-    
+
     public void ClearCommands()
     {
         _commandQueue1.Clear();
