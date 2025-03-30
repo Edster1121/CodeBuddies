@@ -168,7 +168,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2491757880267810267, guid: 0522e5d0ff79a0d4c98d0cf1d3bc011b, type: 3}
       propertyPath: nextSceneName
-      value: Level 3
+      value: Level 2
       objectReference: {fileID: 0}
     - target: {fileID: 4892611842895090054, guid: 0522e5d0ff79a0d4c98d0cf1d3bc011b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3299,7 +3299,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
