@@ -1045,6 +1045,7 @@ GameObject:
   - component: {fileID: 418803694}
   - component: {fileID: 418803695}
   - component: {fileID: 418803696}
+  - component: {fileID: 418803697}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Untagged
@@ -1153,18 +1154,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 418803690}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dbf57adb1ffa6c74787a08450b41ebae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   delayTime: 0.5
-  startingPosition: {x: -4.41, y: -3.31, z: 0}
-  queuePanel: {fileID: 0}
-  upImage: {fileID: 0}
-  downImage: {fileID: 0}
-  leftImage: {fileID: 0}
-  rightImage: {fileID: 0}
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!61 &418803696
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1210,6 +1208,28 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 22, y: 21}
   m_EdgeRadius: 0
+--- !u!114 &418803697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418803690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ea994d5cece5d147b0b387faee3f3db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delayTime: 0.5
+  startingPosition: {x: 0, y: 0, z: 0}
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  queuePanel: {fileID: 0}
+  upImage: {fileID: 0}
+  downImage: {fileID: 0}
+  leftImage: {fileID: 0}
+  rightImage: {fileID: 0}
 --- !u!1 &445565011
 GameObject:
   m_ObjectHideFlags: 0
