@@ -1,42 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player1 : MonoBehaviour
 {
-
-    public float pixelsPerMove = 16f;
-    public float pixelsPerUnit = 100f;
-    public float moveSpeed = 16f;
+    public float pixelsPerMove = 100f; // Movement step size in pixels
+    public float pixelsPerUnit = 100f; // Pixels per unit (PPU) from Unity settings
+    private float moveStep; // Movement step in Unity units
     private Rigidbody2D rb;
-    private Vector2 moveDirection;
 
-    // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();   
-        rb.gravityScale = 0; // disable gravity
-        moveSpeed = (pixelsPerMove / pixelsPerUnit);
+        rb = GetComponent<Rigidbody2D>();
+        rb.gravityScale = 0; // Disable gravity for top-down movement
+        moveStep = pixelsPerMove / pixelsPerUnit; // Convert pixels to Unity units
     }
 
-    // Update is called once per frame
     void Update()
     {
-        float moveX = 0f;
-        float moveY = 0f;
+        Vector2 moveDirection = Vector2.zero;
 
-        // Only use WASD for Player 1
-        if (Input.GetKey(KeyCode.A)) moveX = -1f;
-        if (Input.GetKey(KeyCode.D)) moveX = 1f;
-        if (Input.GetKey(KeyCode.W)) moveY = 1f;
-        if (Input.GetKey(KeyCode.S)) moveY = -1f;
+        // Use GetKeyDown to detect a single key press
+        if (Input.GetKeyDown(KeyCode.A)) moveDirection = Vector2.left;
+        if (Input.GetKeyDown(KeyCode.D)) moveDirection = Vector2.right;
+        if (Input.GetKeyDown(KeyCode.W)) moveDirection = Vector2.up;
+        if (Input.GetKeyDown(KeyCode.S)) moveDirection = Vector2.down;
 
-        moveDirection = new Vector2(moveX, moveY).normalized;
-    }
-
-    void FixedUpdate()
-    {
-        // Apply movement using Rigidbody2D
-        rb.velocity = moveDirection * moveSpeed / Time.fixedDeltaTime;
+        // Move the player by one step
+        transform.position += (Vector3)(moveDirection * moveStep);
     }
 }
