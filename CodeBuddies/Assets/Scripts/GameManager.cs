@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,6 +19,10 @@ public class GameManager : MonoBehaviour
     
     [SerializeField, Tooltip("Winning tolerance margin")]
     private float winTolerance = 0.3f;
+    
+    //SFX Stuff
+    public AudioSource SFX;
+    [SerializeField] public AudioClip win, lose;
 
     private void Awake()
     {
@@ -28,9 +34,17 @@ public class GameManager : MonoBehaviour
 
     public void CheckForLoss()
     {
+        bool isP1Winning = Vector2.Distance((Vector2)player1.transform.position, p1Coords) <= winTolerance;
+        bool isP2Winning = Vector2.Distance((Vector2)player2.transform.position, p2Coords) <= winTolerance;
         if (player1.IsFinished && player2.IsFinished)
         {
-            ResetPlayers();
+
+            if (!isP1Winning || !isP2Winning)
+            {
+                SFX.clip = lose;
+                SFX.Play();
+                ResetPlayers();
+            }
         }
     }
     
@@ -43,9 +57,17 @@ public class GameManager : MonoBehaviour
 
             if (isP1Winning && isP2Winning)
             {
-                SceneManager.LoadScene(nextSceneName);
+                StartCoroutine(WaitForSoundAndLoadNextScene());
             }
         }
+    }
+
+    private IEnumerator WaitForSoundAndLoadNextScene()
+    {
+        SFX.clip = win;
+        SFX.Play();
+        yield return new WaitForSeconds(win.length);
+        SceneManager.LoadScene(nextSceneName);
     }
 
     private void ResetPlayers()
