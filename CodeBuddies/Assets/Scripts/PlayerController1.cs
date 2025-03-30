@@ -45,44 +45,58 @@ public class PlayerController1 : MonoBehaviour
 
     public void AddUpCommand()
     {
-        _commandQueue1.Enqueue("Up");
-        AddImageToQueue(upImage);
+        if (commandImagesQueue.Count < 2 * maxPerRow)  // Limit to 2 rows
+        {
+            _commandQueue1.Enqueue("Up");
+            AddImageToQueue(upImage);
+        }
     }
 
     public void AddDownCommand()
     {
-        _commandQueue1.Enqueue("Down");
-        AddImageToQueue(downImage);
+        if (commandImagesQueue.Count < 2 * maxPerRow)  // Limit to 2 rows
+        {
+            _commandQueue1.Enqueue("Down");
+            AddImageToQueue(downImage);
+        }
     }
 
     public void AddLeftCommand()
     {
-        _commandQueue1.Enqueue("Left");
-        AddImageToQueue(leftImage);
+        if (commandImagesQueue.Count < 2 * maxPerRow)  // Limit to 2 rows
+        {
+            _commandQueue1.Enqueue("Left");
+            AddImageToQueue(leftImage);
+        }
     }
 
     public void AddRightCommand()
     {
-        _commandQueue1.Enqueue("Right");
-        AddImageToQueue(rightImage);
+        if (commandImagesQueue.Count < 2 * maxPerRow)  // Limit to 2 rows
+        {
+            _commandQueue1.Enqueue("Right");
+            AddImageToQueue(rightImage);
+        }
     }
 
     private void AddImageToQueue(Image directionImage)
     {
+        
+        if (commandImagesQueue.Count >= 2 * maxPerRow)
+        {
+            Debug.Log("Maximum image limit reached (2 rows).");
+            return;
+        }
+        
         Image newDirectionImage = Instantiate(directionImage);
         newDirectionImage.transform.SetParent(queuePanel.transform, false);
 
-        // Shrink the image
+        // shrink and add to queue
         newDirectionImage.transform.localScale = new Vector3(imageScale, imageScale, 1f);
-
-        // Add image to the queue
         commandImagesQueue.Enqueue(newDirectionImage);
-
-        // Update image positions after adding a new one
         UpdateImagePositions();
     }
 
-    // Update image positions based on their index in the queue
     private void UpdateImagePositions()
     {
         for (int i = 0; i < commandImagesQueue.Count; i++)
@@ -124,6 +138,7 @@ public class PlayerController1 : MonoBehaviour
 
         _isExecutingCommands = false;
         IsFinished = true;
+        GameManager.Instance.CheckForWin();
         GameManager.Instance.CheckForLoss();
     }
 
