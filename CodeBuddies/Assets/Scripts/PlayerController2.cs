@@ -5,12 +5,15 @@ using UnityEngine.UI;
 
 public class PlayerController2 : MonoBehaviour
 {
+    public bool IsFinished { get; set; } = false;
     private Queue<string> _commandQueue1;
     private const float TileSize = 1f;
     private bool _isExecutingCommands;
     
     [SerializeField, Tooltip("Seconds between player 1 commands")]
     private float delayTime = 0.5f;
+    [SerializeField, Tooltip("Starting positon: world space")]
+    public Vector3 startingPosition;
 
     // UI elements
     public GameObject queuePanel;
@@ -86,6 +89,7 @@ public class PlayerController2 : MonoBehaviour
         }
 
         _isExecutingCommands = false;
+        IsFinished = true;
     }
 
     private void HandleCommand(string command)
@@ -109,5 +113,12 @@ public class PlayerController2 : MonoBehaviour
         }
 
         transform.Translate(moveAmount);
+    }
+    
+    public void ClearCommands()
+    {
+        _commandQueue1.Clear();
+        commandImagesQueue.Clear();
+        IsFinished = false;
     }
 }
