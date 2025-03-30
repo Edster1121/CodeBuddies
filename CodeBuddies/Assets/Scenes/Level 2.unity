@@ -314,8 +314,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 180.0594, y: -255.07}
-  m_SizeDelta: {x: 342.3313, y: 510.14}
+  m_AnchoredPosition: {x: 182, y: -57.479}
+  m_SizeDelta: {x: 342.3313, y: 114.96}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &282299425
 MonoBehaviour:
@@ -337,8 +337,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Did you notice a wooden panel tile?\n\n\nHint: \nYou can't walk through
-    rocks!\n"
+  m_text: 'Use the wooden panel to remove the gate blocking your friend''s goal!
+
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -9208,8 +9210,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 86.999954, y: -539.8801}
-  m_SizeDelta: {x: 351.2278, y: 510.1444}
+  m_AnchoredPosition: {x: 48, y: -342}
+  m_SizeDelta: {x: 333.0583, y: 114.9576}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1364140953
 MonoBehaviour:
