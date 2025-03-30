@@ -4,23 +4,66 @@ using UnityEngine;
 
 public class Player1 : MonoBehaviour
 {
+    private Queue<string> commandQueue;
+    private const float tileSize = 1f;
+    private bool isExecutingCommands = false;
+    
+    [SerializeField, Tooltip("Seconds between player 1 commands")]
+    private float delayTime = 0.5f;
 
-    public float pixelsPerMove = 16f;
-    private Rigidbody2D rb;
 
-    // Start is called before the first frame update
     void Start()
     {
-        rb.gravityScale = 0; // disable gravity
+        commandQueue = new Queue<string>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void AddUpCommand() => commandQueue.Enqueue("Up");
+    public void AddDownCommand() => commandQueue.Enqueue("Down");
+    public void AddLeftCommand() => commandQueue.Enqueue("Left");
+    public void AddRightCommand() => commandQueue.Enqueue("Right");
+    
+    public void ExecuteCommands()
     {
-        // Only use WASD for Player 1
-        if (Input.GetKey(KeyCode.A)) rb.transform.Translate(Vector2.left * pixelsPerMove);
-        if (Input.GetKey(KeyCode.D)) rb.transform.Translate(Vector2.right * pixelsPerMove);
-        if (Input.GetKey(KeyCode.W)) rb.transform.Translate(Vector2.up * pixelsPerMove);
-        if (Input.GetKey(KeyCode.S)) rb.transform.Translate(Vector2.down * pixelsPerMove);
+        if (!isExecutingCommands)
+        {
+            StartCoroutine(ExecuteCommandsWithDelay());
+        }
+    }
+
+    private IEnumerator ExecuteCommandsWithDelay()
+    {
+        isExecutingCommands = true;
+
+        while (commandQueue.Count > 0)
+        {
+            string command = commandQueue.Dequeue();
+            HandleCommand(command);
+            yield return new WaitForSeconds(delayTime);
+        }
+        
+        isExecutingCommands = false;
+    }
+
+    private void HandleCommand(string command)
+    {
+        Vector3 moveAmount = Vector3.zero;
+
+        switch (command)
+        {
+            case "Up":
+                moveAmount = Vector3.up * tileSize;
+                break;
+            case "Down":
+                moveAmount = Vector3.down * tileSize;
+                break;
+            case "Left":
+                moveAmount = Vector3.left * tileSize;
+                break;
+            case "Right":
+                moveAmount = Vector3.right * tileSize;
+                break;
+        }
+
+        transform.Translate(moveAmount);
     }
 }
