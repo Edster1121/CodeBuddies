@@ -7,7 +7,7 @@ public class Player1 : MonoBehaviour
     private Queue<string> commandQueue;
     private const float tileSize = 1f;
     private bool isExecutingCommands = false;
-
+    
     [SerializeField, Tooltip("Seconds between player 1 commands")]
     private float delayTime = 0.5f;
 
@@ -23,7 +23,7 @@ public class Player1 : MonoBehaviour
     public void AddDownCommand() => commandQueue.Enqueue("Down");
     public void AddLeftCommand() => commandQueue.Enqueue("Left");
     public void AddRightCommand() => commandQueue.Enqueue("Right");
-
+    
     public void ExecuteCommands()
     {
         if (!isExecutingCommands)
@@ -33,27 +33,32 @@ public class Player1 : MonoBehaviour
     }
 
     private IEnumerator ExecuteCommandsWithDelay()
+{
+    isExecutingCommands = true;
+
+    while (commandQueue.Count > 0)
     {
-        isExecutingCommands = true;
+        string command = commandQueue.Dequeue();
 
-        while (commandQueue.Count > 0)
+        // if (!CanMove(command)) 
+        // {
+        //     Debug.Log("Movement blocked! Stopping execution.");
+        //     isExecutingCommands = false;  // Reset flag so new commands can execute later
+        //     commandQueue.Clear();
+        //     yield break;  // Exit coroutine safely
+        // }
+
+        if (CanMove(command)) 
         {
-            string command = commandQueue.Peek(); // Peek without removing
-            if (CanMove(command)) 
-            {
-                commandQueue.Dequeue(); // Remove command only if movement is valid
-                HandleCommand(command);
-                yield return new WaitForSeconds(delayTime);
-            }
-            else
-            {
-                Debug.Log("Blocked by boulder! Stopping movement.");
-                break; // Stop execution if a boulder is ahead
-            }
+            HandleCommand(command);
         }
-
-        isExecutingCommands = false;
+        
+        yield return new WaitForSeconds(delayTime);
     }
+
+    isExecutingCommands = false;  // Ensure coroutine can be restarted when new commands are added
+}
+
 
     private void HandleCommand(string command)
     {
@@ -75,44 +80,33 @@ public class Player1 : MonoBehaviour
                 break;
         }
 
-        transform.position += moveAmount;
+        transform.Translate(moveAmount);
     }
 
     private bool CanMove(string command)
     {
-        Vector3 nextPosition = transform.position;
+        Vector3 direction = Vector3.zero;
 
         switch (command)
         {
             case "Up":
-                nextPosition += Vector3.up * tileSize;
+                direction = Vector3.up;
                 break;
             case "Down":
-                nextPosition += Vector3.down * tileSize;
+                direction = Vector3.down;
                 break;
             case "Left":
-                nextPosition += Vector3.left * tileSize;
+                direction = Vector3.left;
                 break;
             case "Right":
-                nextPosition += Vector3.right * tileSize;
+                direction = Vector3.right;
                 break;
         }
 
-        // Check for colliders at the next position
-        Collider2D hit = Physics2D.OverlapCircle(nextPosition, 0.1f, obstacleLayer);
+        float checkDistance = tileSize * 0.9f; // Slightly less than tile size to avoid precision errors
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, checkDistance, obstacleLayer);
 
-        return hit == null; // If no collider is found, movement is allowed
-    }
-
-//temp
-    private float moveSpeed = 2f; // Speed in units per second
-
-    void Update()
-    {
-        // Move the object continuously to the right
-        transform.position += Vector3.right * moveSpeed * Time.deltaTime;
+        return hit.collider == null; // If we hit an obstacle, we can't move
     }
 
 }
-
-    
