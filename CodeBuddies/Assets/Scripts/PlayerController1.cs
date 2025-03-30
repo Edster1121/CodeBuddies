@@ -10,7 +10,10 @@ public class PlayerController1 : MonoBehaviour
     private Queue<string> _commandQueue1;
     private const float TileSize = 1f;
     private bool _isExecutingCommands;
-    
+
+    [SerializeField, Tooltip("Layer for obstacles")]
+    private LayerMask obstacleLayer;
+
     [SerializeField, Tooltip("Seconds between player 1 commands")]
     private float delayTime = 0.5f;
     
@@ -125,7 +128,10 @@ public class PlayerController1 : MonoBehaviour
         while (_commandQueue1.Count > 0)
         {
             string command = _commandQueue1.Dequeue();
-            HandleCommand(command);
+            if (CanMove(command)) 
+            {
+                HandleCommand(command);
+            }
 
             // Optionally remove the first image from the UI after it's executed
             if (commandImagesQueue.Count > 0)
@@ -163,6 +169,32 @@ public class PlayerController1 : MonoBehaviour
         }
 
         transform.Translate(moveAmount);
+    }
+
+    private bool CanMove(string command)
+    {
+        Vector3 direction = Vector3.zero;
+
+        switch (command)
+        {
+            case "Up":
+                direction = Vector3.up;
+                break;
+            case "Down":
+                direction = Vector3.down;
+                break;
+            case "Left":
+                direction = Vector3.left;
+                break;
+            case "Right":
+                direction = Vector3.right;
+                break;
+        }
+
+        float checkDistance = TileSize * 0.9f; // Slightly less than tile size to avoid precision errors
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, checkDistance, obstacleLayer);
+
+        return hit.collider == null; // If we hit an obstacle, we can't move
     }
 
     public void ClearCommands()
